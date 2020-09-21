@@ -4,7 +4,7 @@
  * The Class Book.
  */
 public class Book extends Media {
-	
+	// By Anton Cheng
 	/** The author. */
 	private String author;
 	
