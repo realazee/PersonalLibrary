@@ -114,16 +114,6 @@ public class Media implements Comparable<Media>, Comparator<Media> {
 		this.notes = notes;
 		this.format = format;
 	}
-	
-	/**
-	 * Instantiates a new media.
-	 *
-	 * @param title the name
-	 */
-	public Media(String title) {
-		// TODO Auto-generated constructor stub
-		this.title = title;
-	}
 
 	
 	// These may be helpful for use cases 3-5...
