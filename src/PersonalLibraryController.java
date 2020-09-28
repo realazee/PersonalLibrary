@@ -1,8 +1,16 @@
 
 public class PersonalLibraryController {
 
+	
 	public PersonalLibraryController() {
-		// TODO Auto-generated constructor stub
+		PersonalLibraryModel model = new PersonalLibraryModel();
 	}
+	
+	
+	
+	//add error checking
+	//add the add functions
+	
+	
 
 }
