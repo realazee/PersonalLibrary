@@ -16,7 +16,7 @@ public class Song extends Media {
 	 *
 	 * @param title the title
 	 */
-	public Song(String Artist, String title,String genre, String format, String location, String notes) {
+	public Song(String artist, String title,String genre, String format, String location, String notes) {
 		super(title,location,notes,format);
 		this.artist = artist;
 		this.genre = genre;
