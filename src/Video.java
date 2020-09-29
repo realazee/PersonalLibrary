@@ -12,7 +12,7 @@ public class Video extends Media {
 
 	//to string method that returns the string of the item.
 	public String toString() {
-		return "star: " + this.getStar() + "\n"
+		return "Star: " + this.getStar() + "\n"
 				+"Video Title: " + this.getTitle() + "\n"
 				+"Format: " + this.getFormat() + "\n"
 				+"Location: " + this.getLocation() + "\n"

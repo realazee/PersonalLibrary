@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class PersonalLibraryController {
 	PersonalLibraryModel model;
@@ -15,10 +16,10 @@ public class PersonalLibraryController {
 		return err;
 
 	}
-	public String addSong(String author, String songTitle, String format, String location, String notes) {
+	public String addSong(String author, String songTitle,String genre, String format, String location, String notes) {
 		err = checkForBlankTitle(songTitle);
 		if(err.length() == 0) {
-			model.insertSong(author, songTitle, format, location, notes);
+			model.insertSong(author, songTitle, genre,format, location, notes);
 		}
 		return err;
 	}
@@ -53,7 +54,18 @@ public class PersonalLibraryController {
 		return "";
 
 	}
-
-
+	
+	//written by Anton
+	//returns string array
+	public String[] getMediaDataStr(){
+		ArrayList<Media> al = model.getMedia();
+		String[] s = new String[al.size()];
+		int i = 0;
+		for(Media m : al) {
+			s[i] = m.toString();
+			i++;
+		}
+		return s;
+	}	
 
 }

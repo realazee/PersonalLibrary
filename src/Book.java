@@ -14,9 +14,10 @@ public class Book extends Media {
 	 *
 	 * @param title the title
 	 */
-	public Book(String title) {
+	public Book(String author, String title, String format, String location, String notes) {
 		// TODO Auto-generated constructor stub
-		super(title);
+		super(title,location,notes,format);
+		this.author = author;
 	}
 	
 	/**
@@ -25,8 +26,8 @@ public class Book extends Media {
 	 * @return the string
 	 */
 	public String toString() {
-		String str = "author: " + this.getAuthor() + "\n"
-					+"Song Title: " + this.getTitle() + "\n"
+		String str = "Author: " + this.getAuthor() + "\n"
+					+"Title: " + this.getTitle() + "\n"
 					+"Format: " + this.getFormat() + "\n"
 					+"Location: " + this.getLocation() + "\n"
 					+"Notes: " + this.getNotes();

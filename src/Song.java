@@ -16,8 +16,10 @@ public class Song extends Media {
 	 *
 	 * @param title the title
 	 */
-	public Song(String title) {
-		super(title);
+	public Song(String Artist, String title,String genre, String format, String location, String notes) {
+		super(title,location,notes,format);
+		this.artist = artist;
+		this.genre = genre;
 	}
 	
 	/**
@@ -26,7 +28,7 @@ public class Song extends Media {
 	 * @return the string
 	 */
 	public String toString() {
-		String str = "artist: " + this.getArtist() + "\n"
+		String str = "Artist: " + this.getArtist() + "\n"
 					+"Song Title: " + this.getTitle() + "\n"
 					+"Genre: " + this.getGenre() + "\n"
 					+"Format: " + this.getFormat() + "\n"
