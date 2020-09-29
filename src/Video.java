@@ -4,9 +4,10 @@ public class Video extends Media {
 	//by Aaron Zheng
 	
 	//constructor 
-	public Video(String title) {
+	public Video(String title, String location, String notes, String format, String star) {
 		// TODO Auto-generated constructor stub
-		super(title);
+		super(title, location, notes, format);
+		this.star = star;
 	}
 
 	//to string method that returns the string of the item.

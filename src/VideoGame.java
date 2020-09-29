@@ -1,10 +1,14 @@
 
 public class VideoGame extends Media {
+
+
 // By Aaron Zheng
 	
 	//Constructor
-	public VideoGame(String title) {
-		super(title);
+	public VideoGame(String title, String location, String notes, String format) {
+		super(title, location, notes, format);
+		
+		
 	}
 	
 	//to string method that returns the string of the item.
