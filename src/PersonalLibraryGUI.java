@@ -43,7 +43,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * @author Scott
+ * @author Anton Cheng
  *
  */
 public class PersonalLibraryGUI extends Application {
