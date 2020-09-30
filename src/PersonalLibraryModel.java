@@ -19,8 +19,8 @@ public class PersonalLibraryModel {
 	public void insertBook(String author, String title, String format, String location, String notes) {
 		bk.add(new Book(author, title,format,location,notes));
 	}
-	public void insertSong(String author, String songTitle, String format, String location, String notes) {
-		sg.add(new Song(author, songTitle,format, location,notes));
+	public void insertSong(String author, String songTitle, String genre,String format, String location, String notes) {
+		sg.add(new Song(author, songTitle,genre,format, location,notes));
 	}
 	public void insertVideo(String vidTitle, String star, String format, String location, String notes) {
 		vi.add(new Video(vidTitle,star, format, location,notes));
