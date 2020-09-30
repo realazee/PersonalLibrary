@@ -23,10 +23,10 @@ public class PersonalLibraryModel {
 		sg.add(new Song(author, songTitle,format, location,notes));
 	}
 	public void insertVideo(String vidTitle, String star, String format, String location, String notes) {
-		vg.add(new Video(vidTitle,star, format, location,notes));
+		vi.add(new Video(vidTitle,star, format, location,notes));
 	}
 	public void insertVideoGame(String gtitle, String format, String location, String notes) {
-		vi.add(new VideoGame(gtitle,format, location,notes));
+		vg.add(new VideoGame(gtitle,format, location,notes));
 	}
 	
 	private class ByTitle implements Comparator<Media> {
