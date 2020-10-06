@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class PersonalLibraryController {
 	PersonalLibraryModel model;
+	PersonalLibraryGUI gui;
 	String err;
 	public PersonalLibraryController() {
 		model = new PersonalLibraryModel();
@@ -39,12 +40,26 @@ public class PersonalLibraryController {
 
 	}
 	
+	
 	public String[] getMediaByType(String type) {
+		if(type.length() == 0) {
+			return new String[0];
+		}
 		return model.getMatchingMedia(type);
 	}
 	
 	public String[] getMediaByTitle(String title) {
+		if(title.length() == 0) {
+			return new String[0];
+		}
 		return model.getMatchingTitle(title);
+	}
+	
+	public String[] getMediaByTypeAndTitle(String type, String title) {
+		if(type.length() == 0 || title.length() == 0) {
+			return new String[0];
+		}
+		return model.getMatchingTitleMedia(type, title);
 	}
 	
 	
