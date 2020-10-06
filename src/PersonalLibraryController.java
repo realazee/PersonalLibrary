@@ -42,9 +42,7 @@ public class PersonalLibraryController {
 	
 	
 	public String[] getMediaByType(String type) {
-		if(type.length() == 0) {
-			return new String[0];
-		}
+	
 		return model.getMatchingMedia(type);
 	}
 	
