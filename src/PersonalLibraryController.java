@@ -38,9 +38,19 @@ public class PersonalLibraryController {
 		return err;
 
 	}
+	
+	public String[] getMediaByType(String type) {
+		return model.getMatchingMedia(type);
+	}
+	
+	public String[] getMediaByTitle(String title) {
+		return model.getMatchingTitle(title);
+	}
+	
+	
+	
 
 
-	//add error checking
 
 
 
