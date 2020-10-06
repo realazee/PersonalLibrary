@@ -55,17 +55,6 @@ public class PersonalLibraryController {
 
 	}
 	
-	//written by Anton
-	//returns string array
-	public String[] getMediaDataStr(){
-		ArrayList<Media> al = model.getMedia();
-		String[] s = new String[al.size()];
-		int i = 0;
-		for(Media m : al) {
-			s[i] = m.toString();
-			i++;
-		}
-		return s;
-	}	
+	
 
 }
