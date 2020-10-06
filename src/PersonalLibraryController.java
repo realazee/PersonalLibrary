@@ -57,7 +57,7 @@ public class PersonalLibraryController {
 		if(type.length() == 0 || title.length() == 0) {
 			return new String[0];
 		}
-		return model.getMatchingTitleMedia(type, title);
+		return model.getTypeAndTitle(type, title);
 	}
 	
 	
