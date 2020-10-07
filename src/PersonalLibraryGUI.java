@@ -53,7 +53,7 @@ public class PersonalLibraryGUI extends Application {
     private BorderPane songPane = new BorderPane();
     private BorderPane videoPane = new BorderPane();
     private BorderPane videoGamePane = new BorderPane();
-    TextField b1;
+
     private static PersonalLibraryController controller = new PersonalLibraryController();
 
 
@@ -81,6 +81,18 @@ public class PersonalLibraryGUI extends Application {
 	private TextField vgLocation;
 	private TextField vgNotes;
 	
+	private RadioButton noneRB;
+	private RadioButton bookRB;
+	private RadioButton songRB;
+	private RadioButton videoRB;
+	private RadioButton videoGameRB;
+	private ToggleGroup tg = new ToggleGroup();
+
+	private TextField titleSearch;
+	
+	private ListView<String> lv;
+
+	
     @Override
     public void start(Stage primaryStage) {
     	
@@ -92,8 +104,6 @@ public class PersonalLibraryGUI extends Application {
     	Scene viewMediaScene = new Scene(mediaData,400,400);
     	main.setTop(new Label("Main Screen"));
   
-        // Create Add Employee Button, and write the setOnAction handler to error check data then call controller
-    	// to add the new Employee data
     	Button toBook = new Button("Add Book");
     	toBook.setOnAction(e -> primaryStage.setScene(bookScene));
     	
@@ -115,6 +125,7 @@ public class PersonalLibraryGUI extends Application {
     	addToSongScene(primaryStage,scene);
     	addToVideoScene(primaryStage,scene);
     	addToVideoGameScene(primaryStage,scene);
+        addToMedViewScene(primaryStage,scene);
 
     	GridPane gp = new GridPane();
     	gp.add(toBook,0,0);
@@ -126,30 +137,6 @@ public class PersonalLibraryGUI extends Application {
     	btnBox.getChildren().addAll(viewMedia);
     	main.setBottom(btnBox);
 
-        mediaData.setTop(new Label("Media Data View"));
-        HBox viewBtnBox = new HBox(15);
-        Button back = new Button("Back");
-        back.setOnAction(e -> primaryStage.setScene(scene));
-        
-//        Button nameSort = new Button("Sort By Name");
-//        Button idSort = new Button("Sort By ID");
-//        
-//        btnBox.getChildren().addAll(nameSort,idSort);
-        //        1) call sortByName or SortByID methods in the controller
-        //        2) call view EmployeeDB() to refresh the list view...
-        
-//        nameSort.setOnAction(e -> {
-//        	controller.sortByName();
-//        	viewEmployeeDB();
-//        });
-//        idSort.setOnAction(e -> {
-//        	controller.sortByID();
-//        	viewEmployeeDB();
-//        });
-        //TODO SOrting stuff
-        viewBtnBox.getChildren().add(back);
-        mediaData.setBottom(viewBtnBox);
-
         
         
     	primaryStage.setTitle("Media");
@@ -157,6 +144,77 @@ public class PersonalLibraryGUI extends Application {
         primaryStage.show();
     }
 
+    private void addToMedViewScene(Stage stage, Scene main) {
+    	GridPane gp = new GridPane();
+    	mediaData.setTop(new Label("Media Data View"));
+        Button back = new Button("Back");
+        back.setOnAction(e -> stage.setScene(main));
+        gp.add(back, 0,0);
+        
+        Label titleSearchLabel = new Label("Title: ");
+        
+        titleSearch =  new TextField();
+        
+        Button search = new Button("Search!");
+        search.setOnAction(e ->{
+        	viewMediaDBByTitle(titleSearch.getText());
+        });
+        
+        gp.add(titleSearchLabel, 2, 0);
+        gp.add(titleSearch,3, 0);
+        gp.add(search,2, 1);
+        
+        noneRB = new RadioButton("None");
+        bookRB = new RadioButton("Book");
+        songRB = new RadioButton("Song");
+        videoRB = new RadioButton("Video");
+        videoGameRB = new RadioButton("Video Game");
+        
+        noneRB.setToggleGroup(tg);
+        noneRB.setSelected(true);
+        bookRB.setToggleGroup(tg);
+        songRB.setToggleGroup(tg);
+        videoRB.setToggleGroup(tg);
+        videoGameRB.setToggleGroup(tg);
+        noneRB.setOnAction(e->{
+        	if(noneRB.isSelected()) {
+        		viewMediaDB();
+        	}
+        });
+        bookRB.setOnAction(e->{
+        	if(bookRB.isSelected()) {
+        		viewMediaDBByType("Book");
+        	}
+        });
+        songRB.setOnAction(e->{
+        	if(songRB.isSelected()) {
+        		viewMediaDBByType("Song");
+        	}
+        });
+        videoRB.setOnAction(e->{
+        	if(videoRB.isSelected()) {
+        		viewMediaDBByType("Video");
+        	}
+        });
+        videoGameRB.setOnAction(e->{
+        	if(videoGameRB.isSelected()) {
+        		viewMediaDBByType("Video Game");
+        	}
+        });
+        
+        Button delSelected = new Button("Delete Selected!");
+        delSelected.setOnAction(e ->{
+//        	controller.delete(getListViewInd());
+        });
+        gp.add(delSelected, 0, 3);
+        gp.add(noneRB, 1, 0);
+        gp.add(bookRB,1,1);
+        gp.add(songRB, 1,2);
+        gp.add(videoRB, 1,3);
+        gp.add(videoGameRB, 1,4);
+        
+        mediaData.setBottom(gp);
+    }
     private void addToBookScene(Stage stage,Scene main) {
     	GridPane gp = new GridPane();
     	Label lblTitle = new Label("Title: ");
@@ -362,15 +420,37 @@ public class PersonalLibraryGUI extends Application {
         videoGamePane.setBottom(btns);
     }
 
+    private int getListViewInd() {
+    	return lv.getSelectionModel().getSelectedIndex();
+    }
     
     private void viewMediaDB() {
     	String[] mediaDataStr = controller.getMediaDataStr();
-    	ListView<String> lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
+    	lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
     	lv.setPrefWidth(400);
     	mediaData.setCenter(new ScrollPane(lv));
     }
     
-    
+    private void viewMediaDBByTitle(String title) {
+//    	String[] mediaDataStr = controller.getMediaDataStrByTitle(title);
+//    	if(mediaDataStr.length() == 0) {
+//    		Alert a = new Alert(Alert.AlertType.NONE);
+//    		a.setContentText("No Media With Title '" + title + "' Were Found");
+//    	}
+//    	lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
+//    	lv.setPrefWidth(400);
+//    	mediaData.setCenter(new ScrollPane(lv));
+    }
+    private void viewMediaDBByType(String type) {
+//    	String[] mediaDataStr = controller.getMediaDataStrByType(type);
+//    	if(mediaDataStr.length() == 0) {
+//    		Alert a = new Alert(Alert.AlertType.NONE);
+//    		a.setContentText("No Media With Title '" + type + "' Were Found");
+//    	}
+//    	lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
+//    	lv.setPrefWidth(400);
+//    	mediaData.setCenter(new ScrollPane(lv));
+    }
     private void clearTextFields() {
     	
     	bookAuthor.clear();
