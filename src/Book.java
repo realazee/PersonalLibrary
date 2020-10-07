@@ -16,7 +16,7 @@ public class Book extends Media {
 	 */
 	public Book(String author, String title, String format, String location, String notes) {
 		// TODO Auto-generated constructor stub
-		super(title,location,notes,format);
+		super("Book",title,location,notes,format);
 		this.author = author;
 	}
 	
@@ -26,7 +26,8 @@ public class Book extends Media {
 	 * @return the string
 	 */
 	public String toString() {
-		String str = "Author: " + this.getAuthor() + "\n"
+		String str = "Media Type: " + this.getType() + "\n"
+					+"Author: " + this.getAuthor() + "\n"
 					+"Title: " + this.getTitle() + "\n"
 					+"Format: " + this.getFormat() + "\n"
 					+"Location: " + this.getLocation() + "\n"

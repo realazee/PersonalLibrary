@@ -35,6 +35,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -53,7 +54,7 @@ public class PersonalLibraryGUI extends Application {
     private BorderPane songPane = new BorderPane();
     private BorderPane videoPane = new BorderPane();
     private BorderPane videoGamePane = new BorderPane();
-    TextField b1;
+
     private static PersonalLibraryController controller = new PersonalLibraryController();
 
 
@@ -81,6 +82,18 @@ public class PersonalLibraryGUI extends Application {
 	private TextField vgLocation;
 	private TextField vgNotes;
 	
+	private RadioButton noneRB;
+	private RadioButton bookRB;
+	private RadioButton songRB;
+	private RadioButton videoRB;
+	private RadioButton videoGameRB;
+	private ToggleGroup tg = new ToggleGroup();
+
+	private TextField titleSearch;
+	private String lastSearch = "";
+	private ListView<String> lv;
+
+	
     @Override
     public void start(Stage primaryStage) {
     	
@@ -92,8 +105,6 @@ public class PersonalLibraryGUI extends Application {
     	Scene viewMediaScene = new Scene(mediaData,400,400);
     	main.setTop(new Label("Main Screen"));
   
-        // Create Add Employee Button, and write the setOnAction handler to error check data then call controller
-    	// to add the new Employee data
     	Button toBook = new Button("Add Book");
     	toBook.setOnAction(e -> primaryStage.setScene(bookScene));
     	
@@ -115,6 +126,7 @@ public class PersonalLibraryGUI extends Application {
     	addToSongScene(primaryStage,scene);
     	addToVideoScene(primaryStage,scene);
     	addToVideoGameScene(primaryStage,scene);
+        addToMedViewScene(primaryStage,scene);
 
     	GridPane gp = new GridPane();
     	gp.add(toBook,0,0);
@@ -126,30 +138,6 @@ public class PersonalLibraryGUI extends Application {
     	btnBox.getChildren().addAll(viewMedia);
     	main.setBottom(btnBox);
 
-        mediaData.setTop(new Label("Media Data View"));
-        HBox viewBtnBox = new HBox(15);
-        Button back = new Button("Back");
-        back.setOnAction(e -> primaryStage.setScene(scene));
-        
-//        Button nameSort = new Button("Sort By Name");
-//        Button idSort = new Button("Sort By ID");
-//        
-//        btnBox.getChildren().addAll(nameSort,idSort);
-        //        1) call sortByName or SortByID methods in the controller
-        //        2) call view EmployeeDB() to refresh the list view...
-        
-//        nameSort.setOnAction(e -> {
-//        	controller.sortByName();
-//        	viewEmployeeDB();
-//        });
-//        idSort.setOnAction(e -> {
-//        	controller.sortByID();
-//        	viewEmployeeDB();
-//        });
-        //TODO SOrting stuff
-        viewBtnBox.getChildren().add(back);
-        mediaData.setBottom(viewBtnBox);
-
         
         
     	primaryStage.setTitle("Media");
@@ -157,8 +145,143 @@ public class PersonalLibraryGUI extends Application {
         primaryStage.show();
     }
 
+    private void addToMedViewScene(Stage stage, Scene main) {
+    	GridPane gp = new GridPane();
+    	mediaData.setTop(new Label("Media Data View"));
+       
+        
+        noneRB = new RadioButton("None");
+        bookRB = new RadioButton("Book");
+        songRB = new RadioButton("Song");
+        videoRB = new RadioButton("Video");
+        videoGameRB = new RadioButton("Video Game");
+        
+        noneRB.setToggleGroup(tg);
+        noneRB.setSelected(true);
+        bookRB.setToggleGroup(tg);
+        songRB.setToggleGroup(tg);
+        videoRB.setToggleGroup(tg);
+        videoGameRB.setToggleGroup(tg);
+        Button back = new Button("Back");
+        back.setOnAction(e -> {
+        	noneRB.setSelected(true);
+        	titleSearch.clear();
+        	stage.setScene(main);
+        });
+        gp.add(back, 0,0);
+        
+        Label titleSearchLabel = new Label("Title: ");
+        
+        titleSearch =  new TextField();
+        titleSearch.setOnAction(e ->{
+        	lastSearch = titleSearch.getText();
+        	if(noneRB.isSelected()) {
+        		viewMediaDBByTitle(lastSearch);
+        	}
+    		if(bookRB.isSelected()) {
+    			viewMediaDBByTypeAndTitle("Book",lastSearch);
+    		}
+    		if(songRB.isSelected()) {
+    			viewMediaDBByTypeAndTitle("Song",lastSearch);
+    		}
+    		if(videoRB.isSelected()) {
+    			viewMediaDBByTypeAndTitle("Video",lastSearch);
+    		}
+    		if(videoGameRB.isSelected()) {
+    			viewMediaDBByTypeAndTitle("Video Game",lastSearch);
+    		}
+
+        });
+        Button clearButton = new Button("Clear All Paramaters!");
+        clearButton.setOnAction(e ->{
+        	viewMediaDB();
+        	titleSearch.clear();
+        	noneRB.setSelected(true);
+        });
+        gp.add(clearButton, 3, 1);
+        gp.add(titleSearchLabel, 2, 0);
+        gp.add(titleSearch,3, 0);
+        
+        noneRB.setOnAction(e->{
+        	if(noneRB.isSelected()) {
+        		viewMediaDB();
+        	}
+        });
+        bookRB.setOnAction(e->{
+        	if(bookRB.isSelected()) {
+        		viewMediaDBByType("Book");
+        	}
+        });
+        songRB.setOnAction(e->{
+        	if(songRB.isSelected()) {
+        		viewMediaDBByType("Song");
+        	}
+        });
+        videoRB.setOnAction(e->{
+        	if(videoRB.isSelected()) {
+        		viewMediaDBByType("Video");
+        	}
+        });
+        videoGameRB.setOnAction(e->{
+        	if(videoGameRB.isSelected()) {
+        		viewMediaDBByType("Video Game");
+        	}
+        });
+        
+        Button delSelected = new Button("Delete Selected!");
+        delSelected.setOnAction(e ->{
+        	if(getListViewInd() != -1) {
+        		controller.delete(getListViewInd());
+        		if(lastSearch.length() !=0) {
+        			if(noneRB.isSelected()) {
+        				viewMediaDBByTitle(lastSearch);
+        			}
+        			if(bookRB.isSelected()) {
+            			viewMediaDBByTypeAndTitle("Book",lastSearch);
+            		}
+            		if(songRB.isSelected()) {
+            			viewMediaDBByTypeAndTitle("Song",lastSearch);
+            		}
+            		if(videoRB.isSelected()) {
+            			viewMediaDBByTypeAndTitle("Video",lastSearch);
+            		}
+            		if(videoGameRB.isSelected()) {
+            			viewMediaDBByTypeAndTitle("Video Game",lastSearch);
+            		}
+        		}
+        		else {
+	        		if(noneRB.isSelected()) {
+	        			viewMediaDB();
+	        		}
+	        		else if(bookRB.isSelected()) {
+	            		viewMediaDBByType("Book");
+	            	}
+	        		else if(songRB.isSelected()) {
+	            		viewMediaDBByType("Song");
+	            	}
+	        		else if(videoRB.isSelected()) {
+	            		viewMediaDBByType("Video");
+	            	}
+	        		else if(videoGameRB.isSelected()) {
+	            		viewMediaDBByType("Video Game");
+	            	}
+        		}
+        	}
+        });
+        gp.add(delSelected, 0, 3);
+        gp.add(noneRB, 1, 0);
+        gp.add(bookRB,1,1);
+        gp.add(songRB, 1,2);
+        gp.add(videoRB, 1,3);
+        gp.add(videoGameRB, 1,4);
+        
+        mediaData.setBottom(gp);
+    }
+    
     private void addToBookScene(Stage stage,Scene main) {
     	GridPane gp = new GridPane();
+    	Label lblBook = new Label("Adding A Book");
+    	gp.add(lblBook, 0, 0);
     	Label lblTitle = new Label("Title: ");
     	Label lblAuthor = new Label("Author: ");
     	Label lblFormat = new Label("Format: ");
@@ -170,17 +293,17 @@ public class PersonalLibraryGUI extends Application {
     	bookLocation = new TextField();
     	bookNotes = new TextField();
 
-    	gp.add(lblAuthor,0,0);
-    	gp.add(lblTitle,0, 1);
-        gp.add(lblFormat,0, 2);
-        gp.add(lblLocation,0,3);
-        gp.add(lblNotes,0,4);
+    	gp.add(lblAuthor,0,1);
+    	gp.add(lblTitle,0, 2);
+        gp.add(lblFormat,0, 3);
+        gp.add(lblLocation,0,4);
+        gp.add(lblNotes,0,5);
 
-    	gp.add(bookAuthor,1,0);
-    	gp.add(bookTitle,1,1);
-    	gp.add(bookFormat,1,2);
-    	gp.add(bookLocation,1,3);
-    	gp.add(bookNotes,1,4);
+    	gp.add(bookAuthor,1,1);
+    	gp.add(bookTitle,1,2);
+    	gp.add(bookFormat,1,3);
+    	gp.add(bookLocation,1,4);
+    	gp.add(bookNotes,1,5);
 
         Button addBook = new Button("Add Book");
         addBook.setOnAction(e -> {
@@ -210,6 +333,8 @@ public class PersonalLibraryGUI extends Application {
     }
     private void addToSongScene(Stage stage,Scene main) {
     	GridPane gp = new GridPane();
+    	Label lblSong = new Label("Adding A Song");
+    	gp.add(lblSong, 0, 0);
     	Label lblArtist = new Label("Artist: ");
     	Label lblTitle = new Label("Title: ");
     	Label lblGenre = new Label("Genre: ");
@@ -223,19 +348,19 @@ public class PersonalLibraryGUI extends Application {
     	songLocation = new TextField();
     	songNotes = new TextField();
 
-    	gp.add(lblArtist,0,0);
-    	gp.add(lblTitle,0, 1);
-        gp.add(lblGenre,0, 2);
-        gp.add(lblFormat,0, 3);
-        gp.add(lblLocation,0,4);
-        gp.add(lblNotes,0,5);
+    	gp.add(lblArtist,0,1);
+    	gp.add(lblTitle,0, 2);
+        gp.add(lblGenre,0, 3);
+        gp.add(lblFormat,0, 4);
+        gp.add(lblLocation,0,5);
+        gp.add(lblNotes,0,6);
 
-    	gp.add(songArtist,1,0);
-    	gp.add(songTitle,1,1);
-    	gp.add(songGenre,1,2);
-    	gp.add(songFormat,1,3);
-    	gp.add(songLocation,1,4);
-    	gp.add(songNotes,1,5);
+    	gp.add(songArtist,1,1);
+    	gp.add(songTitle,1,2);
+    	gp.add(songGenre,1,3);
+    	gp.add(songFormat,1,4);
+    	gp.add(songLocation,1,5);
+    	gp.add(songNotes,1,6);
 
         Button addSong = new Button("Add Song");
         addSong.setOnAction(e -> {
@@ -266,6 +391,8 @@ public class PersonalLibraryGUI extends Application {
     }
     private void addToVideoScene(Stage stage,Scene main) {
     	GridPane gp = new GridPane();
+    	Label lblVideo = new Label("Adding A Video");
+    	gp.add(lblVideo, 0, 0);
     	Label lblStar = new Label("Star: ");
     	Label lblTitle = new Label("Title: ");
     	Label lblFormat = new Label("Forrmat: ");
@@ -277,17 +404,17 @@ public class PersonalLibraryGUI extends Application {
     	videoLocation = new TextField();
     	videoNotes = new TextField();
 
-    	gp.add(lblTitle,0,0);
-    	gp.add(lblStar,0, 1);
-        gp.add(lblFormat,0, 2);
-        gp.add(lblLocation,0,3);
-        gp.add(lblNotes,0,4);
+    	gp.add(lblTitle,0,1);
+    	gp.add(lblStar,0, 2);
+        gp.add(lblFormat,0,3);
+        gp.add(lblLocation,0,4);
+        gp.add(lblNotes,0,5);
 
     	gp.add(videoTitle,1,1);
-    	gp.add(videoStar,1,0);
-    	gp.add(videoFormat,1,2);
-    	gp.add(videoLocation,1,3);
-    	gp.add(videoNotes,1,4);
+    	gp.add(videoStar,1,2);
+    	gp.add(videoFormat,1,3);
+    	gp.add(videoLocation,1,4);
+    	gp.add(videoNotes,1,5);
 
         Button addVideo = new Button("Add Video");
         addVideo.setOnAction(e -> {
@@ -318,6 +445,8 @@ public class PersonalLibraryGUI extends Application {
     }
     private void addToVideoGameScene(Stage stage,Scene main) {
     	GridPane gp = new GridPane();
+    	Label lblVideoGame = new Label("Adding A Video Game");
+    	gp.add(lblVideoGame, 0, 0);
     	Label lblTitle = new Label("Title: ");
     	Label lblFormat = new Label("Forrmat: ");
     	Label lblLocation = new Label("Location: ");
@@ -327,15 +456,15 @@ public class PersonalLibraryGUI extends Application {
     	vgLocation = new TextField();
     	vgNotes = new TextField();
 
-    	gp.add(lblTitle,0,0);
-        gp.add(lblFormat,0, 1);
-        gp.add(lblLocation,0,2);
-        gp.add(lblNotes,0,3);
+    	gp.add(lblTitle,0,1);
+        gp.add(lblFormat,0,2);
+        gp.add(lblLocation,0,3);
+        gp.add(lblNotes,0,4);
 
-    	gp.add(vgTitle,1,0);
-    	gp.add(vgFormat,1,1);
-    	gp.add(vgLocation,1,2);
-    	gp.add(vgNotes,1,3);
+    	gp.add(vgTitle,1,1);
+    	gp.add(vgFormat,1,2);
+    	gp.add(vgLocation,1,3);
+    	gp.add(vgNotes,1,4);
 
         Button addVideoGame = new Button("Add Video Game");
         addVideoGame.setOnAction(e -> {
@@ -362,15 +491,48 @@ public class PersonalLibraryGUI extends Application {
         videoGamePane.setBottom(btns);
     }
 
+   private int getListViewInd() {
+    	return lv.getSelectionModel().getSelectedIndex();
+    }
     
     private void viewMediaDB() {
+    	lastSearch = "";
     	String[] mediaDataStr = controller.getMediaDataStr();
-    	ListView<String> lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
+    	lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
     	lv.setPrefWidth(400);
     	mediaData.setCenter(new ScrollPane(lv));
     }
     
-    
+    private void viewMediaDBByTitle(String title) {
+    	String[] mediaDataStr = controller.getMediaByTitle(title);
+    	if(mediaDataStr.length == 0) {
+    		Alert a = new Alert(Alert.AlertType.NONE);
+    		a.setContentText("No Media With Title '" + title + "' Were Found");
+    	}
+    	lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
+    	lv.setPrefWidth(400);
+    	mediaData.setCenter(new ScrollPane(lv));
+    }
+    private void viewMediaDBByType(String type) {
+    	String[] mediaDataStr = controller.getMediaByType(type);
+    	if(mediaDataStr.length == 0) {
+    		Alert a = new Alert(Alert.AlertType.NONE);
+    		a.setContentText("No Media With Title '" + type + "' Were Found");
+    	}
+    	lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
+    	lv.setPrefWidth(400);
+    	mediaData.setCenter(new ScrollPane(lv));
+    }
+    private void viewMediaDBByTypeAndTitle(String type, String title) {
+    	String[] mediaDataStr = controller.getMediaByTypeAndTitle(type,title);
+    	if(mediaDataStr.length == 0) {
+    		Alert a = new Alert(Alert.AlertType.NONE);
+    		a.setContentText("No Media With Title '" + type + "' Were Found");
+    	}
+    	lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
+    	lv.setPrefWidth(400);
+    	mediaData.setCenter(new ScrollPane(lv));
+    }
     private void clearTextFields() {
     	
     	bookAuthor.clear();
