@@ -57,7 +57,7 @@ public class PersonalLibraryController {
 		if(type.length() == 0 || title.length() == 0) {
 			return new String[0];
 		}
-		return model.getMatchingTitleMedia(type, title);
+		return model.getTypeAndTitle(type, title);
 	}
 	
 	
@@ -78,17 +78,6 @@ public class PersonalLibraryController {
 
 	}
 	
-	//written by Anton
-	//returns string array
-	public String[] getMediaDataStr(){
-		ArrayList<Media> al = model.getMedia();
-		String[] s = new String[al.size()];
-		int i = 0;
-		for(Media m : al) {
-			s[i] = m.toString();
-			i++;
-		}
-		return s;
-	}	
+	
 
 }
