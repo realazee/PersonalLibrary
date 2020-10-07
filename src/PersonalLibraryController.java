@@ -39,10 +39,11 @@ public class PersonalLibraryController {
 		return err;
 
 	}
-	
+	public String[] getMediaDataStr() {
+		return model.getMedia();
+	}
 	
 	public String[] getMediaByType(String type) {
-	
 		return model.getMatchingMedia(type);
 	}
 	
@@ -57,17 +58,8 @@ public class PersonalLibraryController {
 		if(type.length() == 0 || title.length() == 0) {
 			return new String[0];
 		}
-		return model.getMatchingTitleMedia(type, title);
+		return model.getTypeAndTitle(type, title);
 	}
-	
-	
-	
-
-
-
-
-
-
 	public String checkForBlankTitle(String title) {
 		if(title.length() == 0) {
 			return "The title cannot be blank! Media will not be entered into personal library.";
