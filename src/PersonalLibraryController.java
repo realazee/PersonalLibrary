@@ -61,6 +61,9 @@ public class PersonalLibraryController {
 	}
 	
 	
+	public void delete(int index) {
+		model.delete(index);
+	}
 	
 
 
