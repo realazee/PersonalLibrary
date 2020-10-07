@@ -1,6 +1,7 @@
 import java.util.Comparator;
 
 // Ethan Peng
+//type methods added by Anton
 /**
  * The Class Media.
  */
@@ -18,12 +19,20 @@ public class Media implements Comparable<Media>, Comparator<Media> {
 	/** The format. */
 	private String format;
 	
-	
+	private String type;
 	/**
 	 * Gets the title.
 	 *
 	 * @return the title
 	 */
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -107,8 +116,9 @@ public class Media implements Comparable<Media>, Comparator<Media> {
 	 * @param notes notes about the media object
 	 * @param format what type of object it is
 	 */
-	public Media(String title, String location, String notes, String format) {
+	public Media(String type, String title, String location, String notes, String format) {
 		// TODO Auto-generated constructor stub
+		this.type = type;
 		this.title = title;
 		this.location = location;
 		this.notes = notes;
@@ -122,7 +132,7 @@ public class Media implements Comparable<Media>, Comparator<Media> {
 	 *
 	 * @param o1 the first object
 	 * @param o2 the second object
-	 * @return if they are equal
+	 * @return if they are equalaf
 	 */
 	// Ignore for use cases 1,2
 	@Override

@@ -22,8 +22,8 @@ public class PersonalLibraryModel {
 	/** The vi. */
 	private ArrayList<Video> vi;
 	
-	private String[] currSelected;
-	private int[] currInd;
+	private String[] currSelected = new String[1000000];
+	private int[] currInd = new int[1000000];
 	
 	/**
 	 * Instantiates a new personal library model.
@@ -110,24 +110,42 @@ public class PersonalLibraryModel {
 	 *
 	 * @return the media
 	 */
+	
+	//Anton fixed deleting problems
 	public String[] getMedia() {
 		Collections.sort(bk,new ByTitle());
 		Collections.sort(sg,new ByTitle());
 		Collections.sort(vg,new ByTitle());
 		Collections.sort(vi,new ByTitle());
 		ArrayList<Media> f  = new ArrayList<>();
+		int ind = 0;
 		for (int i = 0; i < bk.size();i++) {
 			f.add(bk.get(i));
+			System.out.println(ind + " " + currSelected.length);
+			//Anton added this part for each
+			currSelected[ind] = "Book";
+			currInd[ind] = i;
+			ind++;
 		}
 		for (int i = 0; i < sg.size();i++) {
 			f.add(sg.get(i));
-		}
-		for (int i = 0; i < vg.size();i++) {
-			f.add(vg.get(i));
+			currSelected[ind] = "Song";
+			currInd[ind] = i;
+			ind++;
 		}
 		for (int i = 0; i < vi.size();i++) {
 			f.add(vi.get(i));
+			currSelected[ind] = "Video";
+			currInd[ind] = i;
+			ind++;
 		}
+		for (int i = 0; i < vg.size();i++) {
+			f.add(vg.get(i));
+			currSelected[ind] = "Video Game";
+			currInd[ind] = i;
+			ind++;
+		}
+
 		//written by Anton
 		//returns string array
 		ArrayList<Media> al = f;
@@ -144,8 +162,6 @@ public class PersonalLibraryModel {
 		String[] s = new String[1];
 		if (type.equals("Book")) {
 			s = new String[bk.size()];
-			currSelected = new String[s.length];
-			currInd = new int[s.length];
 			int i = 0;
 			for(Media m : bk) {
 				s[i] = m.toString();
@@ -155,8 +171,6 @@ public class PersonalLibraryModel {
 			}
 		} else if (type.equals("Song")) {
 			s = new String[sg.size()];
-			currSelected = new String[s.length];
-			currInd = new int[s.length];
 			int i = 0;
 			for(Media m : sg) {
 				s[i] = m.toString();
@@ -166,8 +180,6 @@ public class PersonalLibraryModel {
 			}
 		} else if (type.equals("Video")) {
 			s = new String[vi.size()];
-			currSelected = new String[s.length];
-			currInd = new int[s.length];
 			int i = 0;
 			for(Media m : vi) {
 				s[i] = m.toString();
@@ -177,8 +189,6 @@ public class PersonalLibraryModel {
 			}
 		} else {
 			s = new String[vg.size()];
-			currSelected = new String[s.length];
-			currInd = new int[s.length];
 			int i = 0;
 			for(Media m : vg) {
 				s[i] = m.toString();
@@ -193,8 +203,6 @@ public class PersonalLibraryModel {
 	public String[] getMatchingTitle(String title) {
 		ArrayList<Media> temp = new ArrayList<>();
 		int ct = 0;
-		currSelected = new String[bk.size() + sg.size() + vi.size() 
-		+ vg.size()];
 		for (int i = 0; i < bk.size(); i++) {
 			if (bk.get(i).getTitle().equals(title)) {
 				temp.add(bk.get(i));
@@ -239,8 +247,6 @@ public class PersonalLibraryModel {
 	public String[] getTypeAndTitle(String type, String title) {
 		String[] s = new String[1];
 		ArrayList<String> temp = new ArrayList<>();
-		currSelected = new String[bk.size() + sg.size() + vi.size() + vg.size()];
-		currInd = new int[currSelected.length];
 		if (type.equals("Book")) {
 			//change size back
 			int i = 0;
@@ -312,6 +318,7 @@ public class PersonalLibraryModel {
 		} else {
 			vg.remove(currInd[index]);
 		}
+		
 	}
 	
 }

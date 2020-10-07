@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class PersonalLibraryController {
 	PersonalLibraryModel model;
-	PersonalLibraryGUI gui;
 	String err;
 	public PersonalLibraryController() {
 		model = new PersonalLibraryModel();
@@ -40,7 +39,9 @@ public class PersonalLibraryController {
 
 	}
 	
-	
+	public String[] getMediaDataStr() {
+		return model.getMedia();
+	}
 	public String[] getMediaByType(String type) {
 	
 		return model.getMatchingMedia(type);
@@ -60,8 +61,10 @@ public class PersonalLibraryController {
 		return model.getTypeAndTitle(type, title);
 	}
 	
-	
-	
+	//Written by anton
+	public void delete(int index) {
+		model.delete(index);
+	}
 
 
 
