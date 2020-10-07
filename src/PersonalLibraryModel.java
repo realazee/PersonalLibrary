@@ -121,7 +121,6 @@ public class PersonalLibraryModel {
 		int ind = 0;
 		for (int i = 0; i < bk.size();i++) {
 			f.add(bk.get(i));
-			System.out.println(ind + " " + currSelected.length);
 			//Anton added this part for each
 			currSelected[ind] = "Book";
 			currInd[ind] = i;

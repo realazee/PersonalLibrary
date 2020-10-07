@@ -61,10 +61,18 @@ public class PersonalLibraryController {
 		return model.getTypeAndTitle(type, title);
 	}
 	
+<<<<<<< HEAD
 	//Written by anton
 	public void delete(int index) {
 		model.delete(index);
 	}
+=======
+	
+	public void delete(int index) {
+		model.delete(index);
+	}
+	
+>>>>>>> bbde20a4c56e90bad4ec11f768dc6b79ffa544fb
 
 
 
