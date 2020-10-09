@@ -10,18 +10,19 @@ import java.util.Comparator;
  */
 public class PersonalLibraryModel {
 	
-	/** The bk. */
+	/** The arraylist storing books. */
 	private ArrayList<Book> bk;
 	
-	/** The sg. */
+	/** The arraylist storing songs. */
 	private ArrayList<Song> sg;
 	
-	/** The vg. */
+	/** The arraylist storing videogames. */
 	private ArrayList<VideoGame> vg;
 	
-	/** The vi. */
+	/** The arraylist storing videos. */
 	private ArrayList<Video> vi;
 	
+	/** The arraylist storing search results. */
 	private ArrayList<Media> search;
 
 	/**
@@ -95,9 +96,9 @@ public class PersonalLibraryModel {
 		/**
 		 * Compare.
 		 *
-		 * @param o1 the o 1
-		 * @param o2 the o 2
-		 * @return the int
+		 * @param o1 the first object
+		 * @param o2 the second object
+		 * @return whether o1 goes before o2
 		 */
 		public int compare(Media o1, Media o2) {
 			return o1.getTitle().compareTo(o2.getTitle());
@@ -135,6 +136,12 @@ public class PersonalLibraryModel {
 		return s;
 	}
 	
+	/**
+	 * Gets the matching media.
+	 *
+	 * @param type the type
+	 * @return the matching media
+	 */
 	public String[] getMatchingMedia(String type) {
 		Collections.sort(bk,new ByTitle());
 		Collections.sort(sg,new ByTitle());
@@ -166,6 +173,12 @@ public class PersonalLibraryModel {
 		return s;
 	}
 	
+	/**
+	 * Gets the matching title.
+	 *
+	 * @param title the title
+	 * @return the matching title
+	 */
 	public String[] getMatchingTitle(String title) {
 		Collections.sort(bk,new ByTitle());
 		Collections.sort(sg,new ByTitle());
@@ -199,6 +212,13 @@ public class PersonalLibraryModel {
 		return s;
 	}
 	
+	/**
+	 * Gets the type and title.
+	 *
+	 * @param type the type
+	 * @param title the title
+	 * @return the matching media
+	 */
 	public String[] getTypeAndTitle(String type, String title) {
 		Collections.sort(bk,new ByTitle());
 		Collections.sort(sg,new ByTitle());
@@ -239,6 +259,11 @@ public class PersonalLibraryModel {
 		return s;
 	}
 
+	/**
+	 * Delete.
+	 *
+	 * @param index the index
+	 */
 	public void delete(int index) {
 		if (search.get(index).getType().equals("Book")) {
 			bk.remove(search.get(index));
