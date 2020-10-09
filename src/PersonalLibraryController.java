@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+//Written by Aaron Zheng
 public class PersonalLibraryController {
 	PersonalLibraryModel model;
 	String err;
@@ -70,7 +70,7 @@ public class PersonalLibraryController {
 
 
 
-
+	//written by Aaron Zheng
 	public String checkForBlankTitle(String title) {
 		if(title.length() == 0) {
 			return "The title cannot be blank! Media will not be entered into personal library.";
