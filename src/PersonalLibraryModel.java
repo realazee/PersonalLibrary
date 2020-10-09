@@ -22,9 +22,8 @@ public class PersonalLibraryModel {
 	/** The vi. */
 	private ArrayList<Video> vi;
 	
-	private String[] currSelected = new String[1000000];
-	private int[] currInd = new int[1000000];
-	
+	private ArrayList<Media> search;
+
 	/**
 	 * Instantiates a new personal library model.
 	 */
@@ -111,213 +110,145 @@ public class PersonalLibraryModel {
 	 * @return the media
 	 */
 	
-	//Anton fixed deleting problems
 	public String[] getMedia() {
 		Collections.sort(bk,new ByTitle());
 		Collections.sort(sg,new ByTitle());
 		Collections.sort(vg,new ByTitle());
 		Collections.sort(vi,new ByTitle());
-		ArrayList<Media> f  = new ArrayList<>();
-		int ind = 0;
+		search = new ArrayList<>();
 		for (int i = 0; i < bk.size();i++) {
-			f.add(bk.get(i));
-			//Anton added this part for each
-			currSelected[ind] = "Book";
-			currInd[ind] = i;
-			ind++;
+			search.add(bk.get(i));
 		}
 		for (int i = 0; i < sg.size();i++) {
-			f.add(sg.get(i));
-			currSelected[ind] = "Song";
-			currInd[ind] = i;
-			ind++;
+			search.add(sg.get(i));
 		}
 		for (int i = 0; i < vi.size();i++) {
-			f.add(vi.get(i));
-			currSelected[ind] = "Video";
-			currInd[ind] = i;
-			ind++;
+			search.add(vi.get(i));
 		}
 		for (int i = 0; i < vg.size();i++) {
-			f.add(vg.get(i));
-			currSelected[ind] = "Video Game";
-			currInd[ind] = i;
-			ind++;
+			search.add(vg.get(i));
 		}
-
-		//written by Anton
-		//returns string array
-		ArrayList<Media> al = f;
-		String[] s = new String[al.size()];
-		int i = 0;
-		for(Media m : al) {
-			s[i] = m.toString();
-			i++;
-		}
+		String[] s = new String[search.size()];
+		for (int i = 0; i < search.size();i++) {
+			s[i] = search.get(i).toString();
+		}	
 		return s;
 	}
 	
 	public String[] getMatchingMedia(String type) {
-		String[] s = new String[1];
+		Collections.sort(bk,new ByTitle());
+		Collections.sort(sg,new ByTitle());
+		Collections.sort(vg,new ByTitle());
+		Collections.sort(vi,new ByTitle());
+		search = new ArrayList<>();
 		if (type.equals("Book")) {
-			s = new String[bk.size()];
-			int i = 0;
 			for(Media m : bk) {
-				s[i] = m.toString();
-				currSelected[i] = "Book";
-				currInd[i] = i;
-				i++;
+				search.add(m);
 			}
 		} else if (type.equals("Song")) {
-			s = new String[sg.size()];
-			int i = 0;
 			for(Media m : sg) {
-				s[i] = m.toString();
-				currSelected[i] = "Song";
-				currInd[i] = i;
-				i++;
+				search.add(m);
 			}
 		} else if (type.equals("Video")) {
-			s = new String[vi.size()];
-			int i = 0;
 			for(Media m : vi) {
-				s[i] = m.toString();
-				currSelected[i] = "Video";
-				currInd[i] = i;
-				i++;
+				search.add(m);
 			}
 		} else {
-			s = new String[vg.size()];
-			int i = 0;
 			for(Media m : vg) {
-				s[i] = m.toString();
-				currSelected[i] = "Video Game";
-				currInd[i] = i;
-				i++;
+				search.add(m);
 			}
+		}
+		//make tostring
+		String[] s = new String[search.size()];
+		for (int i = 0; i < search.size();i++) {
+			s[i] = search.get(i).toString();
 		}
 		return s;
 	}
 	
 	public String[] getMatchingTitle(String title) {
-		ArrayList<Media> temp = new ArrayList<>();
-		int ct = 0;
+		Collections.sort(bk,new ByTitle());
+		Collections.sort(sg,new ByTitle());
+		Collections.sort(vg,new ByTitle());
+		Collections.sort(vi,new ByTitle());
+		search = new ArrayList<>();
 		for (int i = 0; i < bk.size(); i++) {
-			if (bk.get(i).getTitle().equals(title)) {
-				temp.add(bk.get(i));
-				currSelected[ct] = "Book";
-				currInd[ct] = i;
-				ct++;
+			if (bk.get(i).getTitle().equalsIgnoreCase(title)) {
+				search.add(bk.get(i));
 			}
 		}
 		for (int i = 0; i < sg.size(); i++) {
-			if (sg.get(i).getTitle().equals(title)) {
-				temp.add(sg.get(i));
-				currSelected[ct] = "Song";
-				currInd[ct] = i;
-				ct++;
+			if (sg.get(i).getTitle().equalsIgnoreCase(title)) {
+				search.add(sg.get(i));
 			}
 		}
 		for (int i = 0; i < vi.size(); i++) {
-			if (vi.get(i).getTitle().equals(title)) {
-				temp.add(vi.get(i));
-				currSelected[ct] = "Video";
-				currInd[ct] = i;
-				ct++;
+			if (vi.get(i).getTitle().equalsIgnoreCase(title)) {
+				search.add(vi.get(i));
 			}
 		}
 		for (int i = 0; i < vg.size(); i++) {
-			if (vg.get(i).getTitle().equals(title)) {
-				temp.add(vg.get(i));
-				currSelected[ct] = "Video Game";
-				currInd[ct] = i;
-				ct++;
+			if (vg.get(i).getTitle().equalsIgnoreCase(title)) {
+				search.add(vg.get(i));
 			}
 		}
-		String[] s = new String[temp.size()];
-		ct = 0;
-		for (Media m: temp) {
-			s[ct] = m.toString();
-			ct++;
+		String[] s = new String[search.size()];
+		for (int i = 0; i < search.size();i++) {
+			s[i] = search.get(i).toString();
 		}
 		return s;
 	}
 	
 	public String[] getTypeAndTitle(String type, String title) {
-		String[] s = new String[1];
-		ArrayList<String> temp = new ArrayList<>();
+		Collections.sort(bk,new ByTitle());
+		Collections.sort(sg,new ByTitle());
+		Collections.sort(vg,new ByTitle());
+		Collections.sort(vi,new ByTitle());
+		search = new ArrayList<>();
 		if (type.equals("Book")) {
-			//change size back
-			int i = 0;
 			for(Media m : bk) {
-				if (bk.get(i).getTitle().equals(title)) {
-					temp.add(m.toString());
-					currSelected[i] = "Book";
-					currInd[i] = i;
-					i++;
+				if (m.getTitle().equalsIgnoreCase(title)) {
+					search.add(m);
 				}	
 			}
-			Object[] arr = temp.toArray();
-			s = Arrays.copyOf(arr, 
-                    arr.length, 
-                    String[].class);
 		} else if (type.equals("Song")) {
-			int i = 0;
 			for(Media m : sg) {
-				if (sg.get(i).getTitle().equals(title)) {
-					temp.add(m.toString());
-					currSelected[i] = "Song";
-					currInd[i] = i;
-					i++;
+				if (m.getTitle().equalsIgnoreCase(title)) {
+					search.add(m);
 				}	
 			}
-			Object[] arr = temp.toArray();
-			s = Arrays.copyOf(arr, 
-                    arr.length, 
-                    String[].class);
+			
 		} else if (type.equals("Video")) {
-			int i = 0;
 			for(Media m : vi) {
-				if (vi.get(i).getTitle().equals(title)) {
-					temp.add(m.toString());
-					currSelected[i] = "Video";
-					currInd[i] = i;
-					i++;
+				if (m.getTitle().equalsIgnoreCase(title)) {
+					search.add(m);
 				}	
 			}
-			Object[] arr = temp.toArray();
-			s = Arrays.copyOf(arr, 
-                    arr.length, 
-                    String[].class);
+			
 		} else {
-			int i = 0;
 			for(Media m : vg) {
-				if (vg.get(i).getTitle().equals(title)) {
-					temp.add(m.toString());
-					currSelected[i] = "Video Game";
-					currInd[i] = i;
-					i++;
+				if (m.getTitle().equalsIgnoreCase(title)) {
+					search.add(m);
 				}	
 			}
-			Object[] arr = temp.toArray();
-			s = Arrays.copyOf(arr, 
-                    arr.length, 
-                    String[].class);
+		}
+		String[] s = new String[search.size()];
+		for (int i = 0; i < search.size();i++) {
+			s[i] = search.get(i).toString();
 		}
 		return s;
 	}
-	
+
 	public void delete(int index) {
-		if (currSelected[index].equals("Book")) {
-			bk.remove(currInd[index]);
-		} else if (currSelected[index].equals("Song")) {
-			sg.remove(currInd[index]);
-		} else if (currSelected[index].equals("Video")) {
-			vi.remove(currInd[index]);
-		} else {
-			vg.remove(currInd[index]);
+		if (search.get(index).getType().equals("Book")) {
+			bk.remove(search.get(index));
+		} else if (search.get(index).getType().equals("Song")) {
+			sg.remove(search.get(index));
+		} else if (search.get(index).getType().equals("Video")) {
+			vi.remove(search.get(index));
+		} else if (search.get(index).getType().equals("Video Game")) {
+			vg.remove(search.get(index));
 		}
-		
 	}
 	
 }
