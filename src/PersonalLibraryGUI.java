@@ -204,27 +204,52 @@ public class PersonalLibraryGUI extends Application {
         
         noneRB.setOnAction(e->{
         	if(noneRB.isSelected()) {
-        		viewMediaDB();
+        		if(lastSearch.length() != 0) {
+        			viewMediaDBByTitle(lastSearch);
+        		}
+        		else {
+        			viewMediaDB();
+        		}
         	}
         });
         bookRB.setOnAction(e->{
         	if(bookRB.isSelected()) {
-        		viewMediaDBByType("Book");
+        		if(lastSearch.length() != 0) {
+        			viewMediaDBByTypeAndTitle("Book",lastSearch);
+        		}
+        		else {
+        			viewMediaDBByType("Book");
+        		}
         	}
         });
         songRB.setOnAction(e->{
         	if(songRB.isSelected()) {
-        		viewMediaDBByType("Song");
+        		if(lastSearch.length() != 0) {
+        			viewMediaDBByTypeAndTitle("Song",lastSearch);
+        		}
+        		else { 
+        			viewMediaDBByType("Song");
+        		}
         	}
         });
         videoRB.setOnAction(e->{
         	if(videoRB.isSelected()) {
-        		viewMediaDBByType("Video");
+        		if(lastSearch.length() != 0) {
+        			viewMediaDBByTypeAndTitle("Video",lastSearch);
+        		}
+        		else {
+        			viewMediaDBByType("Video");
+        		}
         	}
         });
         videoGameRB.setOnAction(e->{
         	if(videoGameRB.isSelected()) {
-        		viewMediaDBByType("Video Game");
+        		if(lastSearch.length() != 0) {
+        			viewMediaDBByTypeAndTitle("Video Game",lastSearch);
+        		}
+        		else {
+        			viewMediaDBByType("Video Game");
+        		}
         	}
         });
         
