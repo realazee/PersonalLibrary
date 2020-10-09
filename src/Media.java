@@ -1,7 +1,7 @@
 import java.util.Comparator;
 
+// TODO: Auto-generated Javadoc
 // Ethan Peng
-//type methods added by Anton
 /**
  * The Class Media.
  */
@@ -19,20 +19,32 @@ public class Media implements Comparable<Media>, Comparator<Media> {
 	/** The format. */
 	private String format;
 	
+	/** The type. */
 	private String type;
+	
 	/**
-	 * Gets the title.
+	 * Gets the type.
 	 *
-	 * @return the title
+	 * @return the type
 	 */
 	public String getType() {
 		return type;
 	}
 	
+	/**
+	 * Sets the type.
+	 *
+	 * @param type the new type
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 	
+	/**
+	 * Gets the title.
+	 *
+	 * @return the title
+	 */
 	public String getTitle() {
 		return title;
 	}
@@ -111,6 +123,7 @@ public class Media implements Comparable<Media>, Comparator<Media> {
 	/**
 	 * Instantiates a new media.
 	 *
+	 * @param type the type of media, book, song, etc
 	 * @param title the name
 	 * @param location where it's stored
 	 * @param notes notes about the media object
