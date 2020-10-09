@@ -97,7 +97,7 @@ public class PersonalLibraryGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
     	
-    	Scene scene = new Scene(main,400,500);
+    	Scene scene = new Scene(main,400,400);
     	Scene bookScene = new Scene(bookPane,400,400);
     	Scene songScene = new Scene(songPane,400,400);
     	Scene videoScene = new Scene(videoPane,400,400);
@@ -266,6 +266,11 @@ public class PersonalLibraryGUI extends Application {
 	            		viewMediaDBByType("Video Game");
 	            	}
         		}
+        	}
+        	else {
+        		Alert a = new Alert(AlertType.ERROR);
+        		a.setContentText("You Must Have Something Selected To Delete");
+        		a.show();
         	}
         });
         gp.add(delSelected, 0, 3);
@@ -498,6 +503,10 @@ public class PersonalLibraryGUI extends Application {
     private void viewMediaDB() {
     	lastSearch = "";
     	String[] mediaDataStr = controller.getMediaDataStr();
+    	if(mediaDataStr.length == 0) {
+    		mediaDataStr = new String[1];
+    		mediaDataStr[0] = "No Media Was Found";
+    	}
     	lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
     	lv.setPrefWidth(400);
     	mediaData.setCenter(new ScrollPane(lv));
@@ -506,8 +515,8 @@ public class PersonalLibraryGUI extends Application {
     private void viewMediaDBByTitle(String title) {
     	String[] mediaDataStr = controller.getMediaByTitle(title);
     	if(mediaDataStr.length == 0) {
-    		Alert a = new Alert(Alert.AlertType.NONE);
-    		a.setContentText("No Media With Title '" + title + "' Were Found");
+    		mediaDataStr = new String[1];
+    		mediaDataStr[0] = "No Media With Title '" + title + "' Were Found";
     	}
     	lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
     	lv.setPrefWidth(400);
@@ -516,8 +525,8 @@ public class PersonalLibraryGUI extends Application {
     private void viewMediaDBByType(String type) {
     	String[] mediaDataStr = controller.getMediaByType(type);
     	if(mediaDataStr.length == 0) {
-    		Alert a = new Alert(Alert.AlertType.NONE);
-    		a.setContentText("No Media With Title '" + type + "' Were Found");
+    		mediaDataStr = new String[1];
+    		mediaDataStr[0] = "No Media With Type '" + type + "' Were Found";
     	}
     	lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
     	lv.setPrefWidth(400);
@@ -526,8 +535,8 @@ public class PersonalLibraryGUI extends Application {
     private void viewMediaDBByTypeAndTitle(String type, String title) {
     	String[] mediaDataStr = controller.getMediaByTypeAndTitle(type,title);
     	if(mediaDataStr.length == 0) {
-    		Alert a = new Alert(Alert.AlertType.NONE);
-    		a.setContentText("No Media With Title '" + type + "' Were Found");
+    		mediaDataStr = new String[1];
+    		mediaDataStr[0] = "No Media With Title '" + title + "' and Type '"+ type + "' Were Found";
     	}
     	lv = new ListView<>(FXCollections.observableArrayList(mediaDataStr));
     	lv.setPrefWidth(400);
